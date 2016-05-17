@@ -35,7 +35,11 @@
             <link href="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" type="text/css" />
             <!-- bootstrap wysihtml5 - text editor -->
             <link href="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') ?>" rel="stylesheet" type="text/css" />
-
+                
+             <!-- jQuery 2.1.3 -->
+        <script src="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/jQuery/jQuery-2.1.3.min.js') ?>"></script>
+        <!-- Bootstrap 3.3.2 JS -->
+        <script src="<?php echo base_url('assets/AdminLTE-2.0.5/bootstrap/js/bootstrap.min.js') ?>" type="text/javascript"></script>
             </head>
             <body class="skin-blue">
             <!-- Site wrapper -->
@@ -115,7 +119,7 @@
                     <ul class="sidebar-menu">
                         <li class="header">MAIN NAVIGATION</li>
                         <li class="treeview">
-                            <a href="<?php echo base_url();?>index.php/dashboard">
+                            <a href="<?php echo base_url();?>dashboard">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             
@@ -123,14 +127,11 @@
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-files-o"></i>
-                                <span>Layout Options</span>
-                                <span class="label label-primary pull-right">4</span>
+                                <span>Denah Cubeacon</span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                                <li><a href="<?php echo base_url();?>denah/viewdenah1"><i class="fa fa-circle-o"></i> Lantai 1 </a></li>
+                                <li><a href="<?php echo base_url();?>denah/viewdenah2"><i class="fa fa-circle-o"></i> Lantai 2 </a></li>
                             </ul>
                         </li>
                         <li>
@@ -139,7 +140,7 @@
                             </a>
                         </li>            
                         <li class="treeview">
-                             <a href="<?php echo base_url();?>index.php/beacon/getcubeacon">
+                             <a href="<?php echo base_url();?>beacon/getcubeacon">
                                 <i class="fa fa-pie-chart"></i>
                                 <span>Beacon</span>
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -188,10 +189,7 @@
             </footer>
             </div> 
             
-        <!-- jQuery 2.1.3 -->
-        <script src="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/jQuery/jQuery-2.1.3.min.js') ?>"></script>
-        <!-- Bootstrap 3.3.2 JS -->
-        <script src="<?php echo base_url('assets/AdminLTE-2.0.5/bootstrap/js/bootstrap.min.js') ?>" type="text/javascript"></script>
+       
         <!-- SlimScroll -->
         <script src="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/slimScroll/jquery.slimScroll.min.js') ?>" type="text/javascript"></script>
         <!-- FastClick -->

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,29 +27,31 @@
   <div class="register-logo">
     <a href="#"><b>Admin</b>LTE</a>
   </div>
-
+  
   <div class="register-box-body">
+    <?php 
+      if ($this->session->flashdata('message'))  {
+          echo $this->session->flashdata('message');
+      }
+    ?>
     <p class="login-box-msg">Register a new membership</p>
 
-    <form action="../../index.html" method="post">
+    <form role="form" method="post" action="<?php echo site_url('register/registeruser')?>">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Full name">
+        <input type="text" class="form-control" placeholder="User name" name="user_name">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" class="form-control" placeholder="Password" name="pass_name">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Retype password">
+        <input type="password" class="form-control" placeholder="Retype password" name="re_pass_name">
         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
       </div>
       <div class="row">
-        
+
+        <input type="hidden" name="id_user" class="form-control" />
         <!-- /.col -->
         <div class="col-xs-12">
           <button type="submit" class="btn btn-info btn-block btn-flat">Register</button>

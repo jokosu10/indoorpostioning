@@ -1,16 +1,16 @@
 <?php 
-
     if ($this->session->flashdata('message'))  {
         echo $this->session->flashdata('message');
     }
 ?>
-<?php var_dump($cubeacon);?>
+
 <div class="box box-succesful">
     <div class="box-header">
         <h3 class="box-title">Input Data Cubeacon</h3>
     </div><!-- /.box-header -->
     <div class="box-body">
         <form role="form" method="post" action="<?php echo site_url('beacon/addcubeacon')?>">
+
             <!-- text input -->
             <div class="form-group">
                 <label>Nama Cubeacon</label>
@@ -41,6 +41,7 @@
                 <input type="text" name="y_pos_cubeacon" class="form-control" placeholder="Position Y Cubeacon" />
             </div>
                 <input type="hidden" name="id_cubeacon" class="form-control" />
+                <input type="hidden" name="mode" class="form-control" value="<?php echo $mode;?>" />
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary" >Simpan</button>
             </div>
@@ -51,7 +52,7 @@
     <div class="box-header">
        <h3 class="box-title">Data Beacon</h3>
     </div><!-- /.box-header -->
-    <div class="box-body table-responsive">
+    <div class="box-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -60,9 +61,10 @@
                     <th>UUID Cubeacon</th>
                     <th>Major Cubeacon</th>
                     <th>Minor Cubeacon</th>
-                    <th>MAC Address Cubeacon</th>
-                    <th>X Position Cubeacon</th>
-                    <th>Y Position Cubeacon</th>
+                    <th>MAC Address</th>
+                    <th>X Position </th>
+                    <th>Y Position </th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,6 +82,10 @@
                     <th><?php echo $row->mac_address;?></th>
                     <th><?php echo $row->x_position;?></th>
                     <th><?php echo $row->y_position;?></th> 
+                    <th>
+                        <span class="glyphicon glyphicon-trash" onClick="hapus(<?php echo $row->id_cubeacon?>)"></span>
+                        <span class="glyphicon glyphicon-edit" onClick="edit('<?php echo $row->id_cubeacon?>','<?php echo $row->nama_cubeacon?>','<?php echo $row->uuid_cubeacon?>','<?php echo $row->major_cubeacon?>','<?php echo $row->minor_cubeacon?>','<?php echo $row->mac_address?>','<?php echo $row->x_position?>','<?php echo $row->y_position?>')"></span>
+                    </th>
                 </tr>
             <?php 
                     } 
@@ -88,10 +94,8 @@
         </table>
     </div><!-- /.box-body -->
 </div><!-- /.box -->
-<script src="<?php echo base_url();?>asset/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
-<script src="<?php echo base_url();?>asset/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url();?>asset/js/AdminLTE/app.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/AdminLTE-2.0.5/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/AdminLTE-2.0.5/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- page script -->
 <script type="text/javascript">
@@ -106,15 +110,25 @@
             "bAutoWidth": false
         });
     });
-    /*function hapus(id) {
-        var r = confirm("Apakah Yakin DiHapus ? ");
-        if (r == true) {
-            document.location.href = "<?php echo base_url();?>/index.php/input_user/hapus/"+ id;
+    function hapus(id) {
+        var message = confirm("Apakah Data Cubeacon Ini Yakin DiHapus ? ");
+        if (message == true) {
+            document.location.href = "<?php echo base_url();?>beacon/deletecubeacon/"+ id;
         }
     }
-    function edit(id,nama,status_user) {
-        $("input[name=nm_user]").val(nama);
-        $("input[name=status_user]").val(status_user);
-        $("input[name=id]").val(id);
-    }*/
+    function edit(id,nama_cubeacon,uuid_cubeacon,major_cubeacon,minor_cubeacon,mac_address,x_position,y_position) {
+        var message = confirm("Apakah Data Cubeacon Ini Yakin Di Edit ? ");
+        if (message == true) {
+            $("input[name=nama_cubeacon]").val(nama_cubeacon);
+            $("input[name=uuid_cubeacon]").val(uuid_cubeacon);
+            $("input[name=major_cubeacon]").val(major_cubeacon);
+            $("input[name=minor_cubeacon]").val(minor_cubeacon);
+            $("input[name=mac_cubeacon]").val(mac_address);
+            $("input[name=x_pos_cubeacon]").val(x_position);
+            $("input[name=y_pos_cubeacon]").val(y_position);
+            $("input[name=id_cubeacon]").val(id);
+            $("input[name=mode][type='hidden']").val('edit');
+            //document.location.href = "<?php echo base_url();?>beacon/addcubeacon/"+val(id);
+        }
+    }
 </script>

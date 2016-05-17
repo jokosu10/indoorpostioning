@@ -9,11 +9,17 @@ class Beacon extends CI_Controller {
 		$this->load->model('m_beacon');
 	}
         
-	public function GetCubeacon()
+	public function GetCubeacon($id=NULL)
 	{
-        
+		if (is_null($id)) {
+			$mode = 'create';
+		} else {
+			$mode = 'edit';
+		}
+
 		$data_content['cubeacon'] = $this->m_beacon->get_data()->result();
-		$data['content'] = $this->load->view('v_add_beacon',$data_content,true) ;
+		$data_content['mode'] = $mode;
+		$data['content'] = $this->load->view('v_add_beacon',$data_content,true);
 		$this->load->view('home',$data);
 	}
 
@@ -34,17 +40,31 @@ class Beacon extends CI_Controller {
 			redirect(site_url('beacon/getcubeacon'));
 		}
 
-		if ($this->m_beacon->insert_data($this->getinput()) == FALSE) {
-		 	$this->session->set_flashdata('message', 'gagal tambah data');
-			$this->session->set_flashdata('message_status', 'Eroor');
+		$mode = $this->input->post("mode");
 
-			redirect(site_url('beacon/getcubeacon'));
+		if ($mode == 'create') {
+			if ($this->m_beacon->insert_data($this->getinput()) == FALSE) {
+			 	$this->session->set_flashdata('message', 'gagal tambah data');
+				$this->session->set_flashdata('message_status', 'Eroor');
+
+				redirect(site_url('beacon/getcubeacon'));
+			} else {
+				$this->session->set_flashdata('message', 'sukses input data cubeacon');
+				$this->session->set_flashdata('message_status', 'Sukses');
+				redirect(site_url('beacon/getcubeacon')); 
+			}
+		} elseif ($mode == 'edit') {
+			$id = $this->input->post("id_cubeacon");
+			if ($this->m_beacon->update_data($id,$this->getinput()) == FALSE) {
+			 	$this->session->set_flashdata('message', 'gagal Edit data');
+				$this->session->set_flashdata('message_status', 'Eroor');
+				redirect(site_url('beacon/getcubeacon'));
+			} else {
+				$this->session->set_flashdata('message', 'sukses edit data cubeacon');
+				$this->session->set_flashdata('message_status', 'Sukses');
+				redirect(site_url('beacon/getcubeacon'));
+			}
 		}
-
-		$this->session->set_flashdata('message', 'sukses input');
-		$this->session->set_flashdata('message_status', 'Sukses');
-
-		redirect(site_url('beacon/getcubeacon')); 
 	}
 
 	/*add data*/
@@ -62,6 +82,12 @@ class Beacon extends CI_Controller {
 		}
 		
 		return $data;
+	}
+
+	public function DeleteCubeacon($id)
+	{
+		$this->m_beacon->delete_data($id);
+		redirect(site_url('beacon/getcubeacon'));
 	}
    
 }

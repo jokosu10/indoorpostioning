@@ -28,13 +28,18 @@
             </div><!-- /.login-logo -->
             <div class="login-box-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <form action="<?php echo site_url('auth/login') ?>" method="post">
+                <?php 
+                    if ($this->session->flashdata('message'))  {
+                        echo $this->session->flashdata('message');
+                    }
+                ?>
+                <form action="<?php echo site_url('login/cekpass') ?>" method="post">
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" placeholder="Email"/>
+                        <input placeholder="User name" name="user_name" type="text" class="form-control" placeholder="Username"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" placeholder="Password"/>
+                        <input type="password" class="form-control" placeholder="Password" placeholder="Password" name="pass_name"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="row">
