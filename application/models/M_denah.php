@@ -13,9 +13,9 @@ class M_denah extends MY_Model
     public function getLastDenah()
     {
     	$sql = $this->db->query("SELECT *
-FROM tbl_denah_ruangan
-ORDER BY id_denah_ruangan DESC
-LIMIT 1");
+                FROM tbl_denah_ruangan
+                ORDER BY id_denah_ruangan DESC
+                LIMIT 1");
 
     	//var_dump($sql);
     	return $sql;

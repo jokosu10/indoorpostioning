@@ -80,7 +80,7 @@
                                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                                             </div>
                                             <div class="pull-right">
-                                                <a href="<?php echo site_url('auth/logout') ?>" class="btn btn-default btn-flat">Sign out</a>
+                                                <a href="<?php echo site_url('login/logout') ?>" class="btn btn-default btn-flat">Sign out</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -133,11 +133,6 @@
                                 <li><a href="<?php echo base_url();?>denah/viewdenah1"><i class="fa fa-circle-o"></i> Lantai 1 </a></li>
                                 <li><a href="<?php echo base_url();?>denah/viewdenah2"><i class="fa fa-circle-o"></i> Lantai 2 </a></li>
                             </ul>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-th"></i> <span>Widgets</span> <small class="label pull-right bg-green">Hot</small>
-                            </a>
                         </li>            
                         <li class="treeview">
                              <a href="<?php echo base_url();?>beacon/getcubeacon">
@@ -147,19 +142,18 @@
                             </a>
                         </li>            
                         <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-laptop"></i>
-                                <span>UI Elements</span>
+                            <a href="<?php echo base_url();?>profil/getprofil">
+                                <i class="fa fa-user"></i>
+                                <span>Profil</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> General</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Icons</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Buttons</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Sliders</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Timeline</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Modals</a></li>
-                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="<?php echo base_url();?>users/getusers">
+                                <i class="fa fa-users"></i>
+                                <span>Manage User</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
                         </li>
                     </ul>
                 </section>

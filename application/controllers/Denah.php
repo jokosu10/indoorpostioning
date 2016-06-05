@@ -6,6 +6,7 @@ class Denah extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		checkLogged();
 		$this->load->model('m_denah');
 	}
 
@@ -120,5 +121,17 @@ class Denah extends CI_Controller {
 			$data['content'] = $this->load->view('v_denah_2',$data_content,true);
 			$this->load->view('home',$data);
 		}
+	}
+
+	public function view($id = null)
+	{
+		if($id == null){
+			$data_content["denah"] = $this->m_denah->get_data("*")->result();	
+		}else{
+			$data_content["denah"] = $this->m_denah->get_data("*", $id , 1)->result();
+		}
+		//var_dump($data_content['denah']);die;
+		$data['content'] = $this->load->view('v_denah_1',$data_content,true);
+		$this->load->view('home',$data);
 	}
 }

@@ -6,6 +6,7 @@ class Beacon extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		checkLogged();
 		$this->load->model('m_beacon');
 	}
         
