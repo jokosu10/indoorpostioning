@@ -59,4 +59,8 @@ $route['translate_uri_dashes'] = TRUE;
 | REST API Routes
 | -------------------------------------------------------------------------
 */
-$route['api/register'] = 'register_api/registeruser'; // Example 4
+$route['api/register'] = 'api/register_api/registeruser';
+$route['api/login'] = 'api/login_api/cekpass';
+$route['api/beacon/add'] = 'api/beacon_api/cubeacon';
+$route['api/beacon/edit/(:num)'] = 'api/beacon_api/cubeacon/edit/$1';
+

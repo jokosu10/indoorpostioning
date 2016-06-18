@@ -1,14 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Beacon extends CI_Controller {
+require APPPATH . '/libraries/REST_Controller.php';
+
+class Beacon_api extends REST_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		checkLogged();
+
 		$this->load->model('m_beacon');
-		$this->load->model('m_denah');
 	}
         
 	public function GetCubeacon($id=NULL)
@@ -22,13 +23,10 @@ class Beacon extends CI_Controller {
 		$data_content['cubeacon'] = $this->m_beacon->get_data()->result();
 		$data_content['mode'] = $mode;
 		$data['content'] = $this->load->view('v_add_beacon',$data_content,true);
-
-		$all_denah = $this->m_denah->get_data("*")->result_array();
-		$data["all_denah"] = $all_denah;
 		$this->load->view('home',$data);
 	}
 
-	public function AddCubeacon()
+	public function Cubeacon_post($mode="create",$id = null)
 	{
 		$this->form_validation->set_rules("nama_cubeacon","Nama Cubeacon","required");
 		$this->form_validation->set_rules("uuid_cubeacon","UUID Cubeacon","required");
@@ -37,37 +35,31 @@ class Beacon extends CI_Controller {
 		$this->form_validation->set_rules("mac_cubeacon","Mac Address Cubeacon","required");
 		$this->form_validation->set_rules("x_pos_cubeacon","X Postion Cubeacon","required");
 		$this->form_validation->set_rules("y_pos_cubeacon","Y Postion Cubeacon","required");
+		$this->form_validation->set_rules("token","Token","required");
 		
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', validation_errors());
-			$this->session->set_flashdata('message_status', 'Eroor');
-			
-			redirect(site_url('beacon/getcubeacon'));
+			$this->response(array('status'=> 0,'error'=> strip_tags(validation_errors())));
 		}
 
-		$mode = $this->input->post("mode");
+		if ((int)checkToken($this->input->post("token")) < 1) {
+			$this->response(array('status'=> 0,'error'=> "Token Not Match"));
+		}
 
 		if ($mode == 'create') {
 			if ($this->m_beacon->insert_data($this->getinput()) == FALSE) {
-			 	$this->session->set_flashdata('message', 'gagal tambah data');
-				$this->session->set_flashdata('message_status', 'Eroor');
-
-				redirect(site_url('beacon/getcubeacon'));
+			 	$this->response(array('status'=> 0,'error'=> "Please Cek Your Input"));
 			} else {
-				$this->session->set_flashdata('message', 'sukses input data cubeacon');
-				$this->session->set_flashdata('message_status', 'Sukses');
-				redirect(site_url('beacon/getcubeacon')); 
+				$this->response(array("Data"=>$this->getinput(),'status'=> 1,'message' => 'Add Beacon Successfull')); 
 			}
 		} elseif ($mode == 'edit') {
-			$id = $this->input->post("id_cubeacon");
+			if ($this->m_beacon->get_data('*',$id)->num_rows() < 1) {
+				$this->response(array('status'=> 0,'error'=> "Cubeacon Not Available"));
+			}
+
 			if ($this->m_beacon->update_data($id,$this->getinput()) == FALSE) {
-			 	$this->session->set_flashdata('message', 'gagal Edit data');
-				$this->session->set_flashdata('message_status', 'Eroor');
-				redirect(site_url('beacon/getcubeacon'));
+				$this->response(array('status'=> 0,'error'=> "Please Cek Your Input"));
 			} else {
-				$this->session->set_flashdata('message', 'sukses edit data cubeacon');
-				$this->session->set_flashdata('message_status', 'Sukses');
-				redirect(site_url('beacon/getcubeacon'));
+				$this->response(array("Data"=>$this->getinput(),'status'=> 1,'message' => 'Edit Beacon Successfull'));
 			}
 		}
 	}

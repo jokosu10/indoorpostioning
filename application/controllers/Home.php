@@ -7,10 +7,13 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 		checkLogged();
+		$this->load->model('m_denah');
 	}
 
 	public function index()
 	{
-		$this->load->view('home');
+		$all_denah = $this->m_denah->get_data("*")->result_array();
+		$data["all_denah"] = $all_denah;
+		$this->load->view('home', $data);
 	}
 }

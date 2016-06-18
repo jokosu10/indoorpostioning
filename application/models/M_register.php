@@ -24,4 +24,15 @@ class M_register extends MY_Model
         return $string;
         
     } 
+
+    public function checkToken($token)
+    {
+        $query = $this->search_data('*',array("token"=>$token),"and");
+        //var_dump($query->num_rows());die;
+        if ($query->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

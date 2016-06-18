@@ -130,8 +130,12 @@
                                 <span>Denah Cubeacon</span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?php echo base_url();?>denah/viewdenah1"><i class="fa fa-circle-o"></i> Lantai 1 </a></li>
-                                <li><a href="<?php echo base_url();?>denah/viewdenah2"><i class="fa fa-circle-o"></i> Lantai 2 </a></li>
+                                <?php if (@$all_denah) {
+                                    foreach ($all_denah as $al) {?>
+                                        
+                                    <li><a href="<?php echo base_url('denah/view/'.$al['id_denah_ruangan']);?>"><i class="fa fa-circle-o"></i> Lantai <?php echo $al['id_denah_ruangan'];?> </a></li>
+                                <?php } }?>
+                                
                             </ul>
                         </li>            
                         <li class="treeview">
@@ -171,7 +175,7 @@
 
                 <!-- Main content -->
                 <section class="content">
-                    <?php echo $content; ?>
+                    <?php echo @$content; ?>
                 </section><!-- /.content -->
 
             </div><!-- /.content-wrapper -->

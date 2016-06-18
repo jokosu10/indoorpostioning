@@ -6,7 +6,7 @@
 
 <div class="box box-succesful">
     <div class="box-header">
-        <h3 class="box-title">Denah Lantai 1</h3>
+        <h3 class="box-title">Denah Lantai <?php echo $denah["id_denah_ruangan"];?></h3>
     </div><!-- /.box-header -->
     <div class="box-body">
     <?php echo validation_errors();?>
@@ -18,12 +18,12 @@
             </div>
             <div>
             	<?php if (!empty($denah)) { ?>
-            		<img id="image" src="<?php echo site_url().$denah['img_denah_ruangan'];?>">	
+            		<img id="image" src="<?php echo site_url('imagedenah/'.$denah['img_denah_ruangan']);?>">	
             	<?php } else { ?>
             		<img id="image" src="">
            		<?php }?>
            </div>
-                <input type="hidden" name="id_image_denah_1" class="form-control" />
+                <input type="hidden" name="id_image_denah_1" class="form-control"  value="<?php echo $denah["id_denah_ruangan"];?>"/>
         </form>
     </div><!-- /.box-body -->
 </div><!-- /.boxs -->

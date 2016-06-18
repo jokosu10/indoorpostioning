@@ -31,7 +31,7 @@ class Denah extends CI_Controller {
 		$this->load->view('home',$data);
 	}*/
 
-	public function ViewDenah1()
+	/*public function ViewDenah1()
 	{
 		$denah = $this->m_denah->get_data("*", null , 1)->row();
 		$data_content["denah"] = array();
@@ -50,6 +50,19 @@ class Denah extends CI_Controller {
 			$data_content["denah"] = array("img_denah_ruangan" => 'imagedenah/'.$denah->img_denah_ruangan);
 		}
 		$data['content'] = $this->load->view('v_denah_2',$data_content,true);
+		$this->load->view('home',$data);
+	}*/
+
+	public function ViewDenahFull()
+	{
+		$denah = $this->m_denah->getLastDenah()->row();
+		$data_content["denah"] = array();
+		if($denah){
+			$data_content["denah"] = array("img_denah_ruangan" => 'imagedenah/'.$denah->img_denah_ruangan);
+		}
+				$all_denah = $this->m_denah->get_data("*")->result_array();
+			$data["all_denah"] = $all_denah;
+		$data['content'] = $this->load->view('v_denah_3',$data_content,true);
 		$this->load->view('home',$data);
 	}
 
@@ -82,7 +95,9 @@ class Denah extends CI_Controller {
 			$nm_image_denah = $nama_asli;
 			$this->m_denah->insert_data(array('id_denah_ruangan' => $id, 'img_denah_ruangan' =>$nm_image_denah));
 
-			$data_content['denah'] = array("img_denah_ruangan"=> $config['upload_path'].$nama_asli);  
+			$data_content['denah'] = array("img_denah_ruangan"=> $config['upload_path'].$nama_asli);
+					$all_denah = $this->m_denah->get_data("*")->result_array();
+			$data["all_denah"] = $all_denah;  
 			$data['content'] = $this->load->view('v_denah_1',$data_content,true);
 			$this->load->view('home',$data);
 		}
@@ -111,27 +126,74 @@ class Denah extends CI_Controller {
 			$error = array('error' => $this->upload->display_errors());
 			$data_content['denah'] = '';  
 			$data['content'] = $this->load->view('v_denah_2',$data_content,true);
+					$all_denah = $this->m_denah->get_data("*")->result_array();
+			$data["all_denah"] = $all_denah;
 			$this->load->view('home',$data);	
 		} else {
 			$id = $this->input->post('id_image_denah_2');
 			$nm_image_denah = $nama_asli;
 			$this->m_denah->insert_data(array('id_denah_ruangan' => $id, 'img_denah_ruangan' =>$nm_image_denah));
 
-			$data_content['denah'] = array("img_denah_ruangan"=> $config['upload_path'].$nama_asli);  
+			$data_content['denah'] = array("img_denah_ruangan"=> $config['upload_path'].$nama_asli);
+			$all_denah = $this->m_denah->get_data("*")->result_array();
+			$data["all_denah"] = $all_denah;
 			$data['content'] = $this->load->view('v_denah_2',$data_content,true);
+			$this->load->view('home',$data);
+		}
+	}
+
+	public function UploadDenah3()
+	{
+		if (empty($_FILES['upload_image_denah3']['name']))
+		{
+    		$this->form_validation->set_rules('upload_image_denah3', 'Image Denah', 'required');
+		}	
+
+		//konfig upload image
+		$config = array();
+		$nama_asli= $_FILES['upload_image_denah3']['name'];
+		$config['upload_path'] = 'imagedenah/';
+		$config['allowed_types'] = 'jpg|png|jpeg';
+		/*$config['file_name'] = $nama_asli;
+		$config['max_size'] = '1024';
+		$config['max_width'] = '1024';
+		$config['max_height'] = '768';
+		$config['overwrite'] = true;*/
+		$this->load->library('upload', $config);
+		
+		if (!$this->upload->do_upload('upload_image_denah3')) {
+			$error = array('error' => $this->upload->display_errors());
+			$data_content['denah'] = '';  
+			$data['content'] = $this->load->view('v_denah_3',$data_content,true);
+			$all_denah = $this->m_denah->get_data("*")->result_array();
+			$data["all_denah"] = $all_denah;
+			$this->load->view('home',$data);	
+		} else {
+			$id = $this->input->post('id_image_denah_3');
+			$nm_image_denah = $nama_asli;
+			$this->m_denah->insert_data(array('id_denah_ruangan' => $id, 'img_denah_ruangan' =>$nm_image_denah));
+
+			$data_content['denah'] = array("img_denah_ruangan"=> $config['upload_path'].$nama_asli);  
+			$data['content'] = $this->load->view('v_denah_3',$data_content,true);
+			$all_denah = $this->m_denah->get_data("*")->result_array();
+			$data["all_denah"] = $all_denah;
 			$this->load->view('home',$data);
 		}
 	}
 
 	public function view($id = null)
 	{
-		if($id == null){
-			$data_content["denah"] = $this->m_denah->get_data("*")->result();	
-		}else{
-			$data_content["denah"] = $this->m_denah->get_data("*", $id , 1)->result();
+		$denah = $this->m_denah->get_data("*", $id , 1);
+		if($denah->num_rows() < 1){
+			show_404();
 		}
-		//var_dump($data_content['denah']);die;
+
+
+		$data_content["denah"] = $denah->row_array();
 		$data['content'] = $this->load->view('v_denah_1',$data_content,true);
+
+		$all_denah = $this->m_denah->get_data("*")->result_array();
+		$data["all_denah"] = $all_denah;
 		$this->load->view('home',$data);
 	}
 }
