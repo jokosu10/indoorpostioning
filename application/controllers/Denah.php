@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Denah extends CI_Controller {
@@ -8,6 +8,7 @@ class Denah extends CI_Controller {
 		parent::__construct();
 		checkLogged();
 		$this->load->model('m_denah');
+		$this->load->model('m_history');
 	}
 
 	/*public function index($id = null)
@@ -27,7 +28,7 @@ class Denah extends CI_Controller {
 		}else{
 			$data['content'] = $this->load->view('v_denah_2',$data_content,true);
 		}
-		
+
 		$this->load->view('home',$data);
 	}*/
 
@@ -71,7 +72,7 @@ class Denah extends CI_Controller {
 		if (empty($_FILES['upload_image_denah1']['name']))
 		{
     		$this->form_validation->set_rules('upload_image_denah1', 'Image Denah', 'required');
-		}	
+		}
 
 		//konfig upload image
 		$config = array();
@@ -84,12 +85,12 @@ class Denah extends CI_Controller {
 		$config['max_height'] = '768';
 		$config['overwrite'] = true;*/
 		$this->load->library('upload', $config);
-		
+
 		if (!$this->upload->do_upload('upload_image_denah1')) {
 			$error = array('error' => $this->upload->display_errors());
-			$data_content['denah'] = '';  
+			$data_content['denah'] = '';
 			$data['content'] = $this->load->view('v_denah_1',$data_content,true);
-			$this->load->view('home',$data);	
+			$this->load->view('home',$data);
 		} else {
 			$id = $this->input->post('id_image_denah_1');
 			$nm_image_denah = $nama_asli;
@@ -97,7 +98,7 @@ class Denah extends CI_Controller {
 
 			$data_content['denah'] = array("img_denah_ruangan"=> $config['upload_path'].$nama_asli);
 					$all_denah = $this->m_denah->get_data("*")->result_array();
-			$data["all_denah"] = $all_denah;  
+			$data["all_denah"] = $all_denah;
 			$data['content'] = $this->load->view('v_denah_1',$data_content,true);
 			$this->load->view('home',$data);
 		}
@@ -108,7 +109,7 @@ class Denah extends CI_Controller {
 		if (empty($_FILES['upload_image_denah2']['name']))
 		{
     		$this->form_validation->set_rules('upload_image_denah2', 'Image Denah', 'required');
-		}	
+		}
 
 		//konfig upload image
 		$config = array();
@@ -121,14 +122,14 @@ class Denah extends CI_Controller {
 		$config['max_height'] = '768';
 		$config['overwrite'] = true;*/
 		$this->load->library('upload', $config);
-		
+
 		if (!$this->upload->do_upload('upload_image_denah2')) {
 			$error = array('error' => $this->upload->display_errors());
-			$data_content['denah'] = '';  
+			$data_content['denah'] = '';
 			$data['content'] = $this->load->view('v_denah_2',$data_content,true);
 					$all_denah = $this->m_denah->get_data("*")->result_array();
 			$data["all_denah"] = $all_denah;
-			$this->load->view('home',$data);	
+			$this->load->view('home',$data);
 		} else {
 			$id = $this->input->post('id_image_denah_2');
 			$nm_image_denah = $nama_asli;
@@ -147,7 +148,7 @@ class Denah extends CI_Controller {
 		if (empty($_FILES['upload_image_denah3']['name']))
 		{
     		$this->form_validation->set_rules('upload_image_denah3', 'Image Denah', 'required');
-		}	
+		}
 
 		//konfig upload image
 		$config = array();
@@ -160,20 +161,20 @@ class Denah extends CI_Controller {
 		$config['max_height'] = '768';
 		$config['overwrite'] = true;*/
 		$this->load->library('upload', $config);
-		
+
 		if (!$this->upload->do_upload('upload_image_denah3')) {
 			$error = array('error' => $this->upload->display_errors());
-			$data_content['denah'] = '';  
+			$data_content['denah'] = '';
 			$data['content'] = $this->load->view('v_denah_3',$data_content,true);
 			$all_denah = $this->m_denah->get_data("*")->result_array();
 			$data["all_denah"] = $all_denah;
-			$this->load->view('home',$data);	
+			$this->load->view('home',$data);
 		} else {
 			$id = $this->input->post('id_image_denah_3');
 			$nm_image_denah = $nama_asli;
 			$this->m_denah->insert_data(array('id_denah_ruangan' => $id, 'img_denah_ruangan' =>$nm_image_denah));
 
-			$data_content['denah'] = array("img_denah_ruangan"=> $config['upload_path'].$nama_asli);  
+			$data_content['denah'] = array("img_denah_ruangan"=> $config['upload_path'].$nama_asli);
 			$data['content'] = $this->load->view('v_denah_3',$data_content,true);
 			$all_denah = $this->m_denah->get_data("*")->result_array();
 			$data["all_denah"] = $all_denah;
@@ -195,5 +196,37 @@ class Denah extends CI_Controller {
 		$all_denah = $this->m_denah->get_data("*")->result_array();
 		$data["all_denah"] = $all_denah;
 		$this->load->view('home',$data);
+	}
+
+	//get all user for posisi x and y user from mysql
+	public function getAllHistoryPosisiUser()
+	{
+		header('Content-Type: application/json');
+		$last_time_pos_user = $this->input->get("time");
+		$id_user = $this->input->get("id_user");
+
+		$limit = !is_null($this->input->get("limit")) ? $this->input->get("limit") : 10 ;
+
+		$posisiUser = $this->m_history->getUserByIduser("*", $id_user,$limit)->result_array();
+		//if ($this->input->is_ajax_request()) {
+			echo json_encode(array("data" => $posisiUser));
+			exit(0);
+		//}
+
+	}
+
+	//get last time per user posisi x and y
+	public function getHistoryPosisiUserLastTime()
+	{
+		header('Content-Type: application/json');
+		$last_time_pos_user = $this->input->get("time");
+		$id_user = $this->input->get("id_user");
+
+		$posisiUser = $this->m_history->getLastUserPosisi($id_user)->result_array();
+		//if ($this->input->is_ajax_request()) {
+			echo json_encode(array("data" => $posisiUser));
+			exit(0);
+		//}
+
 	}
 }

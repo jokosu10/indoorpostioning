@@ -1,17 +1,36 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Profil extends CI_Controller {
+require APPPATH . '/libraries/REST_Controller.php';
+class Profil_api extends REST_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		checkLogged();
 		$this->load->model('m_profil');
-		$this->load->model('m_denah');
 	}
 
-	public function GetProfil($id=NULL)
+	public function Profildata_get()
+	{
+		$data_content['profil'] = $this->m_profil->get_data()->result();
+		echo json_encode(array("data"=>$data_content,'status'=> 1,'message' => 'Get Data Profil Successfull'));
+		exit(0); 
+	}
+
+	public function Profiluser_get($token)
+	{
+		$data = $this->m_profil->getUserByToken("*", $token)->row_array();
+		if(count($data) > 0){
+			echo json_encode(array("data"=>$data,'status'=> 1,'message' => 'Get Data Profil Successfull')); 
+			exit(0);	
+		}else{
+			echo json_encode(array("data"=>$data,'status'=> 0,'message' => 'Get Data Profil Failed'));
+			exit(0); 
+		}
+		
+	}
+
+	/*public function GetProfil($id=NULL)
 	{
 		if (is_null($id)) {
 			$mode = 'create';
@@ -27,25 +46,22 @@ class Profil extends CI_Controller {
 		$all_denah = $this->m_denah->get_data("*")->result_array();
 		$data["all_denah"] = $all_denah;
 		$this->load->view('home',$data);
-	}
+	}*/
 
-	public function EditProfil()
+	public function EditProfil_post()
 	{
 		$mode = $this->input->post("mode");
 
 		//if ($mode == 'edit') {
 			$id = $this->input->post("id_user");
-
+			
 			if ($this->m_profil->update_data($id,$this->getinput()) == FALSE) {
-			 	$this->session->set_flashdata('message', 'gagal Edit data');
-				$this->session->set_flashdata('message_status', 'Eroor');
-				redirect(site_url('profil/getprofil'));
+			 	echo json_encode (array('status'=> 0,'error'=> "Please Cek Your Input"));
+			 	exit(0);
 			} else {
-				$this->session->set_flashdata('message', 'sukses edit profil');
-				$this->session->set_flashdata('message_status', 'Sukses');
-				redirect(site_url('profil/getprofil'));
+				echo json_encode (array('status'=> 1,'message' => 'Edit Profil Successfull','Data'=>$this->getinput()));
+				exit(0);
 			}
-		//}
 	}
 
 	/*add data*/
@@ -59,7 +75,7 @@ class Profil extends CI_Controller {
 				$data['password'] = $this->input->post("password");
 			}
 		}
-
+		 
 		return $data;
 	}
 }

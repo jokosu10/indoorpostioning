@@ -61,6 +61,10 @@ $route['translate_uri_dashes'] = TRUE;
 */
 $route['api/register'] = 'api/register_api/registeruser';
 $route['api/login'] = 'api/login_api/cekpass';
+$route['api/getprofil'] = 'api/profil_api/profildata';
+$route['api/historyuser'] = 'api/history_api/historyuser';
+$route['api/getprofiluser/(:any)'] = 'api/profil_api/profiluser/$1';
 $route['api/beacon/add'] = 'api/beacon_api/cubeacon';
+$route['api/beacon'] = 'api/beacon_api/cubeacondata';
 $route['api/beacon/edit/(:num)'] = 'api/beacon_api/cubeacon/edit/$1';
 

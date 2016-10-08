@@ -25,11 +25,6 @@ class Register_api extends REST_Controller {
         $this->load->model('m_register');
     }
 
-    public function index()
-    {
-        # code...
-    }
-
     public function RegisterUser_post()
     {
         $this->form_validation->set_rules("user_name","Username","required|min_length[5]|max_length[12]|is_unique[tbl_user.username]");
@@ -37,17 +32,19 @@ class Register_api extends REST_Controller {
         $this->form_validation->set_rules("re_pass_name","Retype Password","required");
 
         if ($this->form_validation->run() == FALSE) {
-            $this->response(array('status'=> 0,'error'=> strip_tags(validation_errors())));
+            echo json_encode(array('status'=> 0,'error'=> strip_tags(validation_errors())));
+            exit(0);
         }
 
         $createTokenRegister = $this->m_register->createToken();
         $data = array_merge($this->getinput(), $createTokenRegister);
-
+        
         if ($this->m_register->insert_data($data) == FALSE) {
-            $this->response(array('status'=> 0,'error'=> "Please Cek Your Input"));
+            echo json_encode(array('status'=> 0,'error'=> "Please Cek Your Input"));
+            exit(0);
         } else {
-            $this->response(array("Data"=>$data,'status'=> 1,'message' => 'Register Sucessful'));
- 
+            echo json_encode(array('status'=> 1,'message' => 'Register Sucessful','data'=>$data));
+            exit(0);
         }
     }
 

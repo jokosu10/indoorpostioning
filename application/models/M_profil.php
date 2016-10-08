@@ -9,4 +9,13 @@ class M_profil extends MY_Model
     {
         parent::__construct();
     }
+
+    function getUserByToken($coloumn = '*', $where)
+    {
+		$this->db->or_where('token = ',$where);
+		$this->db->select($coloumn);
+		$result = $this->db->get($this->table);
+		
+		return $result;
+    }
 }

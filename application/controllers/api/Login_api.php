@@ -24,22 +24,25 @@ class Login_api extends REST_Controller {
 
 		$this->form_validation->set_rules("user_name","Username","required");
         $this->form_validation->set_rules("pass_name","Password","required");
-        $this->form_validation->set_rules("token","Token","required");
+        //$this->form_validation->set_rules("token","Token","required");
 
         if ($this->form_validation->run() == FALSE) {
-            $this->response(array('status'=> 0,'error'=> strip_tags(validation_errors())));
+            echo json_encode(array('status'=> 0,'error'=> strip_tags(validation_errors())));
+            exit(0);
         }
 
         $nm_user = $this->input->post("user_name");
 		$pass_user = $this->input->post("pass_name");
-		$token_user = $this->input->post("token");
+		//$token_user = $this->input->post("token");
 
-		$cek_login = $this->m_register->search_data('*',array("username"=>$nm_user,"password"=>md5($pass_user), "token" => $token_user),"and");
+		$cek_login = $this->m_register->search_data('*',array("username"=>$nm_user,"password"=>md5($pass_user)),"and");
 
 		if ($cek_login->num_rows() > 0) {
-			$this->response(array("Data"=>$cek_login->row_array(),'status'=> 1,'message' => 'Login Sucessful'));
+			echo json_encode(array('status'=> 1,'message' => 'Login Sucessful',"data"=>$cek_login->row_array()));
+			exit(0);
 		} else {
-			$this->response(array('status'=> 0,'error'=> "Please Cek Your Input"));
+			echo json_encode(array('status'=> 0,'error'=> "Please Cek Your Input"));
+			exit(0);
 		}
 	}
 

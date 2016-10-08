@@ -18,8 +18,8 @@ class Register extends CI_Controller {
 	public function RegisterUser()
 	{
 		$this->form_validation->set_rules("user_name","Username","required");
-		$this->form_validation->set_rules("pass_name","pass_user","required|matches[re_pass_name]");
-		$this->form_validation->set_rules("re_pass_name","re_pass_user","required");
+		$this->form_validation->set_rules("pass_name","Password","required|matches[re_pass_name]");
+		$this->form_validation->set_rules("re_pass_name","Retype Password","required");
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', validation_errors());

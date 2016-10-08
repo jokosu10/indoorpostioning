@@ -10,7 +10,7 @@ class Users extends CI_Controller {
 		$this->load->model('m_register');
 		$this->load->model('m_denah');
 	}
-        
+
 	public function GetUsers($id=NULL)
 	{
 		if (is_null($id)) {
@@ -33,11 +33,11 @@ class Users extends CI_Controller {
 		$this->form_validation->set_rules("user_name","Username","required");
 		$this->form_validation->set_rules("pass_name","pass_user","required|matches[re_pass_name]");
 		$this->form_validation->set_rules("re_pass_name","re_pass_user","required");
-	
+
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', validation_errors());
 			$this->session->set_flashdata('message_status', 'Eroor');
-			
+
 			redirect(site_url('users/getusers'));
 		}
 
@@ -49,23 +49,23 @@ class Users extends CI_Controller {
 			$createTokenRegister = $this->m_register->createToken();
 			$data = array_merge($this->getinput(), $createTokenRegister);
 			if ($this->m_register->insert_data($data) == FALSE) {
-			 	$this->session->set_flashdata('message', 'gagal tambah data');
+			 	$this->session->set_flashdata('message', 'Gagal Tambah Data User');
 				$this->session->set_flashdata('message_status', 'Eroor');
 
 				redirect(site_url('users/getusers'));
 			} else {
-				$this->session->set_flashdata('message', 'sukses input data cubeacon');
+				$this->session->set_flashdata('message', 'Sukses Input Data User');
 				$this->session->set_flashdata('message_status', 'Sukses');
-				redirect(site_url('users/getusers')); 
+				redirect(site_url('users/getusers'));
 			}
 		} elseif ($mode == 'edit') {
 			$id = $this->input->post("id_user");
 			if ($this->m_register->update_data($id,$this->getinput()) == FALSE) {
-			 	$this->session->set_flashdata('message', 'gagal Edit data');
+			 	$this->session->set_flashdata('message', 'Gagal Edit Data User');
 				$this->session->set_flashdata('message_status', 'Eroor');
 				redirect(site_url('users/getusers'));
 			} else {
-				$this->session->set_flashdata('message', 'sukses edit data cubeacon');
+				$this->session->set_flashdata('message', 'Sukses Edit Data User');
 				$this->session->set_flashdata('message_status', 'Sukses');
 				redirect(site_url('users/getusers'));
 			}
@@ -80,7 +80,7 @@ class Users extends CI_Controller {
 				"password" 	=> md5($this->input->post("pass_name"))
 			);
 		}
-		
+
 		return $data;
 	}
 
@@ -89,5 +89,5 @@ class Users extends CI_Controller {
 		$this->m_register->delete_data($id);
 		redirect(site_url('users/getusers'));
 	}
-   
+
 }

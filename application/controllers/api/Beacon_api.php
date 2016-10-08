@@ -12,18 +12,10 @@ class Beacon_api extends REST_Controller {
 		$this->load->model('m_beacon');
 	}
         
-	public function GetCubeacon($id=NULL)
+	public function Cubeacondata_get()
 	{
-		if (is_null($id)) {
-			$mode = 'create';
-		} else {
-			$mode = 'edit';
-		}
-
 		$data_content['cubeacon'] = $this->m_beacon->get_data()->result();
-		$data_content['mode'] = $mode;
-		$data['content'] = $this->load->view('v_add_beacon',$data_content,true);
-		$this->load->view('home',$data);
+		$this->response(array('status'=> 1,'message' => 'Get List CuBeacon Successfull','data'=>$data_content)); 
 	}
 
 	public function Cubeacon_post($mode="create",$id = null)
