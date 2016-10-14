@@ -120,5 +120,5 @@ function getLastXandYUser(id_user, time) {
     });
 }
 
-setInterval(getLastXandYUser,100000);
+setInterval(getLastXandYUser,10000);
 </script>

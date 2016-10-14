@@ -12,7 +12,7 @@
         <link href="<?php echo base_url('assets/ionicons-2.0.1/css/ionicons.min.css') ?>" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="<?php echo base_url('assets/AdminLTE-2.0.5/dist/css/AdminLTE.min.css') ?>" rel="stylesheet" type="text/css" />
-        <!-- AdminLTE Skins. Choose a skin from the css/skins 
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
         <link href="<?php echo base_url('assets/AdminLTE-2.0.5/dist/css/skins/_all-skins.min.css') ?>" rel="stylesheet" type="text/css" />
 
@@ -35,7 +35,7 @@
             <link href="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" type="text/css" />
             <!-- bootstrap wysihtml5 - text editor -->
             <link href="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') ?>" rel="stylesheet" type="text/css" />
-                
+
              <!-- jQuery 2.1.3 -->
         <script src="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/jQuery/jQuery-2.1.3.min.js') ?>"></script>
         <!-- Bootstrap 3.3.2 JS -->
@@ -122,7 +122,7 @@
                             <a href="<?php echo base_url();?>dashboard">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
                             </a>
-                            
+
                         </li>
                         <li class="treeview">
                             <a href="#">
@@ -132,19 +132,26 @@
                             <ul class="treeview-menu">
                                 <?php if (@$all_denah) {
                                     foreach ($all_denah as $al) {?>
-                                        
+
                                     <li><a href="<?php echo base_url('denah/view/'.$al['id_denah_ruangan']);?>"><i class="fa fa-circle-o"></i> Lantai <?php echo $al['id_denah_ruangan'];?> </a></li>
                                 <?php } }?>
-                                
+
                             </ul>
-                        </li>            
+                        </li>
                         <li class="treeview">
                              <a href="<?php echo base_url();?>beacon/getcubeacon">
                                 <i class="fa fa-pie-chart"></i>
                                 <span>Beacon</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
-                        </li>            
+                        </li>
+                        <li class="treeview">
+                             <a href="<?php echo base_url();?>area/getarea">
+                                <i class="fa fa-plus-square-o"></i>
+                                <span>Area</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                        </li>
                         <li class="treeview">
                             <a href="<?php echo base_url();?>profil/getprofil">
                                 <i class="fa fa-user"></i>
@@ -185,11 +192,11 @@
                 </div>
                 <strong>Copyright &copy; 2015-2016 </strong> All rights reserved.
             </footer>
-            </div> 
-            
-       
+            </div>
+
+
         <!-- SlimScroll -->
-        <script src="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/slimScroll/jquery.slimScroll.min.js') ?>" type="text/javascript"></script>
+        <script src='<?php echo base_url('assets/AdminLTE-2.0.5/plugins/slimScroll/jquery.slimScroll.min.js') ?> '></script>
         <!-- FastClick -->
         <script src='<?php echo base_url('assets/AdminLTE-2.0.5/plugins/fastclick/fastclick.min.js') ?>'></script>
         <!-- AdminLTE App -->

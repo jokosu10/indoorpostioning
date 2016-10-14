@@ -1,4 +1,4 @@
-<?php 
+<?php
     if ($this->session->flashdata('message'))  {
         echo $this->session->flashdata('message');
     }
@@ -69,7 +69,7 @@
             </thead>
             <tbody>
             <?php $no = 1?>
-            <?php 
+            <?php
                 if (isset($cubeacon)) {
                     foreach ($cubeacon as $row ) {
             ?>
@@ -81,14 +81,14 @@
                     <th><?php echo $row->minor_cubeacon;?></th>
                     <th><?php echo $row->mac_address;?></th>
                     <th><?php echo $row->x_position;?></th>
-                    <th><?php echo $row->y_position;?></th> 
+                    <th><?php echo $row->y_position;?></th>
                     <th>
                         <span class="glyphicon glyphicon-trash" onClick="hapus(<?php echo $row->id_cubeacon?>)"></span>
                         <span class="glyphicon glyphicon-edit" onClick="edit('<?php echo $row->id_cubeacon?>','<?php echo $row->nama_cubeacon?>','<?php echo $row->uuid_cubeacon?>','<?php echo $row->major_cubeacon?>','<?php echo $row->minor_cubeacon?>','<?php echo $row->mac_address?>','<?php echo $row->x_position?>','<?php echo $row->y_position?>')"></span>
                     </th>
                 </tr>
-            <?php 
-                    } 
+            <?php
+                    }
             }?>
             </tbody>
         </table>
