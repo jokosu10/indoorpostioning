@@ -8,6 +8,7 @@ class Area extends CI_Controller {
         parent::__construct();
         checkLogged();
         $this->load->model('m_area');
+        $this->load->model('m_denah');
     }
 
     public function GetArea($id=NULL)
@@ -17,8 +18,9 @@ class Area extends CI_Controller {
         } else {
             $mode = 'edit';
         }
-
-        $data_content['area'] = $this->m_area->get_data()->result();
+        $all_denah = $this->m_denah->get_data("*")->result_array();
+        $data_content["all_denah"] = $all_denah;
+        $data_content['area'] = $this->m_area->getAllArea()->result();
         $data_content['mode'] = $mode;
         $data['content'] = $this->load->view('v_list_area',$data_content,true);
 
@@ -38,6 +40,8 @@ class Area extends CI_Controller {
         $this->form_validation->set_rules("y3_area","y3_area","required|numeric");
         $this->form_validation->set_rules("x4_area","x4_area","required|numeric");
         $this->form_validation->set_rules("y4_area","y4_area","required|numeric");
+        $this->form_validation->set_rules("denah_ruangan", "Denah Ruangan", "required");
+
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('message', validation_errors());
@@ -87,7 +91,8 @@ class Area extends CI_Controller {
                 "x3"  => $this->input->post("x3_area"),
                 "y3" => $this->input->post("y3_area"),
                 "x4"  => $this->input->post("x4_area"),
-                "y4" => $this->input->post("y4_area")
+                "y4" => $this->input->post("y4_area"),
+                "id_denah_ruangan" => $this->input->post("denah_ruangan"),
             );
         }
 

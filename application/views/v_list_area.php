@@ -45,7 +45,22 @@
                 <label>Y4 Area</label>
                 <input type="text" name="y4_area" class="form-control" placeholder="Y4 Area" />
             </div>
+            <div class="form-group">
+                <label>Denah Ruangan</label>
+                <select name="denah_ruangan" class="form-control">
+                    <option value=""></option>
+                    <?php foreach ($all_denah as $key => $value) {
+                        /*if($value['id_denah_ruangan'] == $value['id']){
+                            var_dump($value);*/
+                    ?>
+                        <option value="<?=$value['id_denah_ruangan'];?>" selected><?=$value['nama_ruangan'];?></option>
 
+                    <?php
+
+                    }
+                    ?>
+                </select>
+            </div>
                 <input type="hidden" name="id_area_ruangan" class="form-control" />
                 <input type="hidden" name="mode" class="form-control" value="<?php echo $mode;?>" />
             <div class="box-footer">
@@ -93,10 +108,10 @@
                     <th><?php echo $row->y3;?></th>
                     <th><?php echo $row->x4;?></th>
                     <th><?php echo $row->y4;?></th>
-                    <th><?php echo $row->id_denah_ruangan;?></th>
+                    <th><?php echo $row->nama_ruangan;?></th>
                     <th>
                         <span class="glyphicon glyphicon-trash" onClick="hapus(<?php echo $row->id_area_ruangan?>)"></span>
-                        <span class="glyphicon glyphicon-edit" onClick="edit('<?php echo $row->id_area_ruangan?>','<?php echo $row->nama_area_ruangan?>','<?php echo $row->x1?>','<?php echo $row->y1?>','<?php echo $row->x2?>','<?php echo $row->y2?>','<?php echo $row->x3?>','<?php echo $row->y3?>','<?php echo $row->x4?>','<?php echo $row->y4?>')"></span>
+                        <span class="glyphicon glyphicon-edit" onClick="edit('<?php echo $row->id_area_ruangan?>','<?php echo $row->nama_area_ruangan?>','<?php echo $row->x1?>','<?php echo $row->y1?>','<?php echo $row->x2?>','<?php echo $row->y2?>','<?php echo $row->x3?>','<?php echo $row->y3?>','<?php echo $row->x4?>','<?php echo $row->y4?>','<?php echo $row->nama_ruangan?>')"></span>
                     </th>
                 </tr>
             <?php
@@ -128,7 +143,7 @@
             document.location.href = "<?php echo base_url();?>area/deletearea/"+ id;
         }
     }
-    function edit(id,name_area,x1_area,y1_area,x2_area,y2_area,x3_area,y3_area,x4_area,y4_area) {
+    function edit(id,name_area,x1_area,y1_area,x2_area,y2_area,x3_area,y3_area,x4_area,y4_area,denah_ruangan) {
         var message = confirm("Apakah Data Area Ruangan Ini Yakin Di Edit ? ");
         if (message == true) {
             $("input[name=name_area]").val(name_area);
@@ -140,6 +155,7 @@
             $("input[name=y3_area]").val(y3_area);
             $("input[name=x4_area]").val(x4_area);
             $("input[name=y4_area]").val(y4_area);
+            $("input[name=denah_ruangan]").val(denah_ruangan);
             $("input[name=id_area_ruangan]").val(id);
             $("input[name=mode][type='hidden']").val('edit');
             //document.location.href = "<?php echo base_url();?>beacon/addcubeacon/"+val(id);

@@ -127,13 +127,13 @@
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-files-o"></i>
-                                <span>Denah Cubeacon</span>
+                                <span>Denah Ruangan</span>
                             </a>
                             <ul class="treeview-menu">
                                 <?php if (@$all_denah) {
                                     foreach ($all_denah as $al) {?>
 
-                                    <li><a href="<?php echo base_url('denah/view/'.$al['id_denah_ruangan']);?>"><i class="fa fa-circle-o"></i> Lantai <?php echo $al['id_denah_ruangan'];?> </a></li>
+                                    <li><a href="<?php echo base_url('denah/view/'.$al['id_denah_ruangan']);?>"><i class="fa fa-circle-o"></i> Lantai <?php echo $al['nama_ruangan'];?> </a></li>
                                 <?php } }?>
 
                             </ul>

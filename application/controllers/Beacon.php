@@ -10,7 +10,7 @@ class Beacon extends CI_Controller {
 		$this->load->model('m_beacon');
 		$this->load->model('m_denah');
 	}
-        
+
 	public function GetCubeacon($id=NULL)
 	{
 		if (is_null($id)) {
@@ -19,12 +19,13 @@ class Beacon extends CI_Controller {
 			$mode = 'edit';
 		}
 
-		$data_content['cubeacon'] = $this->m_beacon->get_data()->result();
+		$all_denah = $this->m_denah->get_data("*")->result_array();
+		$data_content["all_denah"] = $all_denah;
+		$data_content['cubeacon'] = $this->m_beacon->getAllCubeacon()->result();
+		//var_dump($data_content['cubeacon']);die;
 		$data_content['mode'] = $mode;
 		$data['content'] = $this->load->view('v_add_beacon',$data_content,true);
 
-		$all_denah = $this->m_denah->get_data("*")->result_array();
-		$data["all_denah"] = $all_denah;
 		$this->load->view('home',$data);
 	}
 
@@ -37,16 +38,20 @@ class Beacon extends CI_Controller {
 		$this->form_validation->set_rules("mac_cubeacon","Mac Address Cubeacon","required");
 		$this->form_validation->set_rules("x_pos_cubeacon","X Postion Cubeacon","required");
 		$this->form_validation->set_rules("y_pos_cubeacon","Y Postion Cubeacon","required");
-		
+		$this->form_validation->set_rules("color_cubeacon","Color Cubeacon","required");
+		$this->form_validation->set_rules("denah_ruangan", "Denah Ruangan", "required");
+
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', validation_errors());
 			$this->session->set_flashdata('message_status', 'Eroor');
-			
+
 			redirect(site_url('beacon/getcubeacon'));
 		}
 
 		$mode = $this->input->post("mode");
-
+/*		$all_denah = $this->m_denah->get_data("*")->result_array();
+		//var_dump($all_denah);die;
+		$data["all_denah"] = $all_denah;*/
 		if ($mode == 'create') {
 			if ($this->m_beacon->insert_data($this->getinput()) == FALSE) {
 			 	$this->session->set_flashdata('message', 'gagal tambah data');
@@ -56,7 +61,7 @@ class Beacon extends CI_Controller {
 			} else {
 				$this->session->set_flashdata('message', 'sukses input data cubeacon');
 				$this->session->set_flashdata('message_status', 'Sukses');
-				redirect(site_url('beacon/getcubeacon')); 
+				redirect(site_url('beacon/getcubeacon'));
 			}
 		} elseif ($mode == 'edit') {
 			$id = $this->input->post("id_cubeacon");
@@ -83,9 +88,11 @@ class Beacon extends CI_Controller {
 				"mac_address" 		=> $this->input->post("mac_cubeacon"),
 				"x_position" 		=> $this->input->post("x_pos_cubeacon"),
 				"y_position" 		=> $this->input->post("y_pos_cubeacon"),
+				"color_cubeacon" 		=> $this->input->post("color_cubeacon"),
+				"id_denah_ruangan" 		=> $this->input->post("denah_ruangan"),
 			);
 		}
-		
+
 		return $data;
 	}
 
@@ -94,5 +101,5 @@ class Beacon extends CI_Controller {
 		$this->m_beacon->delete_data($id);
 		redirect(site_url('beacon/getcubeacon'));
 	}
-   
+
 }

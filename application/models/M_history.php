@@ -28,9 +28,10 @@ class M_history extends MY_Model
 
     function getLastUserPosisi($id_user = array())
     {
-        $sql = "SELECT  history_user.id_user,username, x_user, y_user, time
-            FROM (select * from tbl_history_user order by time desc) as history_user
-            left join tbl_user tu on tu.id_user = history_user.id_user";
+            $sql = "SELECT  history_user.id_user,history_user.id_area_ruangan,username, x_user, y_user, time,nama_area_ruangan
+    FROM (select * from tbl_history_user order by time desc) as history_user
+    left join tbl_user tu on tu.id_user = history_user.id_user
+    left join tbl_area_ruangan tar on tar.id_area_ruangan = history_user.id_area_ruangan";
         if (count($id_user) > 0) {
             $sql .= " where in history_user.id_user".implode(",",id_user);
         }

@@ -57,6 +57,7 @@ class History_api extends REST_Controller {
                 "time"          => date('Y-m-d H:i:s'),
                 "x_user"      => (double) $this->input->post("x_user"),
                 "y_user"      => (double) $this->input->post("y_user"),
+                "id_area_ruangan"      => (int) $this->input->post("id_area_ruangan"),
             );
         }
 

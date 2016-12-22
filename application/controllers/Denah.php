@@ -9,6 +9,8 @@ class Denah extends CI_Controller {
 		checkLogged();
 		$this->load->model('m_denah');
 		$this->load->model('m_history');
+		$this->load->model('m_area');
+		$this->load->model('m_beacon');
 	}
 
 	/*public function index($id = null)
@@ -191,11 +193,71 @@ class Denah extends CI_Controller {
 
 
 		$data_content["denah"] = $denah->row_array();
+		$data_content["area"] = $this->initDataArea($id);
+		$data_content["beacon"] = $this->initDataBeacon($id);
+
+		//denah multi lantai, denah sevima
+		$data_content["multi_lantai"] = false;
+		if($id == 2){
+			$data_content["multi_lantai"] = true;
+		}
+
 		$data['content'] = $this->load->view('v_denah_1',$data_content,true);
 
 		$all_denah = $this->m_denah->get_data("*")->result_array();
+
 		$data["all_denah"] = $all_denah;
+		//var_dump($data);die;
 		$this->load->view('home',$data);
+	}
+
+	//set data area, denah,
+	public function initDataArea($id_denah)
+	{
+		$where = array("id_denah_ruangan" => $id_denah);
+		$area = $this->m_area->search_data("*", $where)->result();
+		$area_json = array();
+		if(!empty($area)){
+			$i = 0;
+			foreach ($area as $key => $value) {
+				$area_json[$i]["id"] = $value->id_area_ruangan;
+				$area_json[$i]["name"] = $value->nama_area_ruangan;
+				$area_json[$i]["color"] = "";
+				$area_json[$i]["position"] = array(
+					array("x" => $value->x1, "y" => $value->y1),
+					array("x" => $value->x2, "y" => $value->y2),
+					array("x" => $value->x3, "y" => $value->y3),
+					 array("x" => $value->x4, "y" => $value->y4)
+					);
+				$i++;
+			}
+		}
+		//echo json_encode(array("area"=>$area));
+		return $area_json;
+	}
+
+	//set data beacon,
+	public function initDataBeacon($id_denah)
+	{
+		$where = array("id_denah_ruangan" => $id_denah);
+		$beacon = $this->m_beacon->search_data("*", $where)->result();
+		$beacon_json = array();
+		if(!empty($beacon)){
+			$i = 0;
+			foreach ($beacon as $key => $value) {
+				$beacon_json[$i]["id"] = $value->id_cubeacon;
+				$beacon_json[$i]["name"] = $value->nama_cubeacon;
+				$beacon_json[$i]["color"] = $value->color_cubeacon;
+				$beacon_json[$i]["major"] = $value->major_cubeacon;
+				$beacon_json[$i]["minor"] = $value->minor_cubeacon;
+				$beacon_json[$i]["uuid"] = $value->uuid_cubeacon;
+				$beacon_json[$i]["x"] = $value->x_position;
+				$beacon_json[$i]["y"] = $value->y_position;
+				$i++;
+			}
+		}
+		//echo json_encode(array("beacon"=>$beacon));
+		return $beacon_json;
 	}
 
 	//get all user for posisi x and y user from mysql
